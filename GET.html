@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Заявочки</title>
+</head>
+<body>
+    <div>
+        <a href="GET.html">Получить заявки</a>
+        <a href="POST.html">Добавить заявку</a>
+    </div>
+    <table>
+        <tr>
+            <th>Номер</th>
+            <th>Клиент</th>
+            <th>Телефон</th>
+            <th>Адрес</th>
+            <th>Номер апартаментов</th>
+            <th>Пожелания</th>
+            <th>Дата заезда</th>
+            <th>Дата выезда</th>
+            <th>Администратор</th>
+            <th>Статус</th>
+          </tr>
+    </table>
+    <script>
+        let table = document.querySelector("table");
+
+        GetOrders();
+
+        async function GetOrders() {
+            let response = await fetch("http://localhost:7777/orders", {method: "GET"});
+            let orders = await response.json();
+
+            orders.forEach(o => {
+                let tr = document.createElement("tr");
+                
+                tr.append(CreateTd(o.number));
+                tr.append(CreateTd(o.client));
+                tr.append(CreateTd(o.phone));
+                tr.append(CreateTd(o.adres));
+                tr.append(CreateTd(o.apartmens));
+                tr.append(CreateTd(o.wishes));
+                tr.append(CreateTd(o.check_in));
+                tr.append(CreateTd(o.departure));
+                tr.append(CreateTd(o.admin));
+                tr.append(CreateTd(o.status));
+
+                table.append(tr); 
+            });
+        }
+
+        function CreateTd(data) {
+            let td = document.createElement("td");
+            td.append(data);
+            return td;
+        }
+    </script>
+</body>
+</html>
